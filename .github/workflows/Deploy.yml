@@ -16,7 +16,7 @@ jobs:
       - name: Extract id value
         run: |
           id_value=$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)
-          echo "id: $id_value" >> $GITHUB_ENV
+          echo "$id_value" >> $GITHUB_ENV
       - name: list
         run: env 
       # Continue with other steps using the id_value variable
