@@ -18,5 +18,6 @@ jobs:
           id_value=$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)
           echo "id_value=$id_value" >> $GITHUB_ENV
       - name: list
-        run: env 
+        if: ${{ env.id_value == 'APPSVC00001'}} 
+        run: echo "running the step"
       # Continue with other steps using the id_value variable
