@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Run Glapi
-        if: ${{ id_value != 'APPSVC0000' }}
+        if: ${{ steps.read_asset.outputs.id_value != 'APPSVC0000' }}
         run: |
           echo "Running the Glapi job..."
           # Your Glapi job execution code here
