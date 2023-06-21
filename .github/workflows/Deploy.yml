@@ -1,4 +1,4 @@
-name: Glapi Workflow
+name: Workflow Example
 
 on:
   push:
@@ -6,25 +6,29 @@ on:
       - main
 
 jobs:
-  check_id_job:
+  extract_id_job:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Read asset.yml file
+      - name: Extract id value
+        id: extract_id
         run: |
-          $id_value= $(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)
+          id_value=$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)
+          echo "::set-output name=id_value::$id_value"
 
-
-  glapi_job:
+  other_job:
+    needs: extract_id_job
     runs-on: ubuntu-latest
-    needs: check_id_job
 
     steps:
-      - name: Run Glapi
-        if: ${{ steps.read_asset.outputs.id_value != 'APPSVC0000' }}
+      - name: Use id value in if statement
         run: |
-          echo "Running the Glapi job..."
-          # Your Glapi job execution code here
+          if [[ "${{ needs.extract_id_job.outputs.id_value }}" != "APPSVC0000" ]]; then
+            echo "ID is not APPSVC0000. Run the job..."
+            # Your job execution code here
+          else
+            echo "ID is APPSVC0000. Skip the job..."
+          fi
