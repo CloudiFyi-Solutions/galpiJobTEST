@@ -15,8 +15,8 @@ jobs:
 
       - name: Read asset.yml file
         run: |
-          id_value=$(grep -oP '(?<=id: ).*' asset.yml)
-          echo "::set-output name=id_value::$id_value"
+          $id_value= $(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)
+
 
   glapi_job:
     runs-on: ubuntu-latest
@@ -24,7 +24,7 @@ jobs:
 
     steps:
       - name: Run Glapi
-        if: ${{ steps.read_asset.outputs.id_value != 'APPSVC0000' }}
+        if: ${{ id_value != 'APPSVC0000' }}
         run: |
           echo "Running the Glapi job..."
           # Your Glapi job execution code here
