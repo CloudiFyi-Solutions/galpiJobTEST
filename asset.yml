@@ -5,4 +5,3 @@ repoMetaData:
     - type:  AppService
        id: APPSVC0000
        tech: Terraform
-       
