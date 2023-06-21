@@ -15,7 +15,7 @@ jobs:
 
       - name: Extract id value
         run: |
-          id_value=$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)
+          id_value=$(awk '/^[[:blank:]]*id:/ { print $2 }' ../../asset.yml)
           echo "id: $id_value" > id_value.yml
 
   other_job:
