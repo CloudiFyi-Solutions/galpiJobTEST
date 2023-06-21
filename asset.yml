@@ -1,0 +1,7 @@
+repoMetaData:
+  version: 3
+  change: NA
+  serviceNowAssociatedRecords:
+    - type:  AppService
+       id: APPSVC0000
+       tech: Terraform

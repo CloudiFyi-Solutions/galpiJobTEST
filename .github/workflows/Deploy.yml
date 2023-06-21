@@ -1,0 +1,28 @@
+name: Glapi Workflow
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  check_id_job:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Read asset.yml file
+        run: echo "ID_VALUE=$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)" >> $GITHUB_ENV
+
+  glapi_job:
+    runs-on: ubuntu-latest
+    needs: check_id_job
+
+    steps:
+      - name: Run Glapi
+        if: ${{ env.ID_VALUE == 'APPSVC0000' }}
+        run: |
+          echo "Running the Glapi job..."
+          # Your Glapi job execution code here
