@@ -16,16 +16,7 @@ jobs:
       - name: Extract id value
         run: |
           id_value=$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)
-          echo "id: $id_value"
-
-  other_job:
-    needs: extract_id_job
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Read id value from file
-        run: |
-          id_value=$(cat id_value.yml)
-          echo "ID value is: $id_value"
-
+          echo "id: $id_value" >> $GITHUB_ENV
+      - name: list
+        run: env 
       # Continue with other steps using the id_value variable
