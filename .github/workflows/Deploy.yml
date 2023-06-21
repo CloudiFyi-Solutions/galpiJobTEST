@@ -14,20 +14,18 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Extract id value
-        id: extract_id
         run: |
-          awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml
+          id_value=$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)
+          echo "id: $id_value" > id_value.yml
 
   other_job:
     needs: extract_id_job
     runs-on: ubuntu-latest
 
     steps:
-      - name: Use id value in if statement
+      - name: Read id value from file
         run: |
-          if [[ "${{ needs.extract_id_job.outputs.id_value }}" != "APPSVC0000" ]]; then
-            echo "ID is not APPSVC0000. Run the job..."
-            # Your job execution code here
-          else
-            echo "ID is APPSVC0000. Skip the job..."
-          fi
+          id_value=$(cat id_value.yml)
+          echo "ID value is: $id_value"
+
+      # Continue with other steps using the id_value variable
