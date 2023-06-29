@@ -28,13 +28,14 @@ jobs:
       id: ${{ steps.getid.outputs.id_value }}
     steps:
       - name: Checkout repository
-          uses: actions/checkout@v2
+        uses: actions/checkout@v2
+
       - id: getid
-          run: |
-            id_value=$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)
-            echo $id_value
-          # echo "id_value=$id_value" >> $GITHUB_OUTPUT
-            echo "::set-output name=id::$id_value"
+        run: |
+          id_value=$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)
+          echo $id_value
+        # echo "id_value=$id_value" >> $GITHUB_OUTPUT
+          echo "::set-output name=id::$id_value"
   second_job:
     needs: [first_job]
     runs-on: ubuntu-latest
