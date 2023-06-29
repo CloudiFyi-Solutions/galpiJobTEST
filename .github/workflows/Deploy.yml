@@ -33,13 +33,13 @@ jobs:
 
       - id: GetID
         run: |
-          id_value=$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)
-          echo $id_value
-          echo "::set-output name=idoutput::$id_value"
+# id_value=$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)
+# echo $id_value
+          echo "::set-output name=idoutput::$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)"
   second_job:
     needs: [first_job]
     runs-on: ubuntu-latest
     if: needs.first_job.outputs.idoutput != 'APPSVC00000'
     steps:
       - run: |
-          echo "$idoutput"
+          echo $idoutput
