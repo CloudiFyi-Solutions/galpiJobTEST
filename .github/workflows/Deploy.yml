@@ -43,4 +43,4 @@ jobs:
     steps:
       - run: |
           echo "ID Output: ${{ needs.first_job.outputs.idoutput }} "
-          echo "Condition: ${{ needs.first_job.outputs.idoutput == 'APPSVC02111' }}"
+          echo "Condition: ${{ needs.first_job.outputs.idoutput != 'APPSVC02111' }}"
