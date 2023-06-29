@@ -34,7 +34,7 @@ jobs:
         run: |
           id_value=$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)
           echo $id_value
-          echo "::set-output name=id_value::${{id_value}}"
+          echo "::set-output name=id_value::$id_value"
   second_job:
     needs: first_job
     runs-on: ubuntu-latest
@@ -45,5 +45,5 @@ jobs:
       - name: Use ID Value
         run: |
           # Use the ID value from the first job
-          echo "ID Value: ${{ needs.first_job.steps.get_id.outputs.id_value }}"
+          echo "ID Value: ${{ needs.first_job.steps.outputs.id_value }}"
           # Perform additional steps for the second job
