@@ -5,19 +5,45 @@ on:
     branches:
       - main
 
+# jobs:
+#   extract_id_job:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout repository
+#         uses: actions/checkout@v2
+
+#       - name: Extract id value
+#         run: |
+#           id_value=$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)
+#           echo "id_value=$id_value" >> $GITHUB_ENV
+#       - name: list
+#         if: ${{ env.id_value != 'APPSVC00000'}} 
+#         run: echo "running the step"
+#       # Continue with other steps using the id_value variable
 jobs:
-  extract_id_job:
+  first_job:
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-
-      - name: Extract id value
+        
+      - name: Get ID Value
+        id: get_id
         run: |
-          id_value=$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)
-          echo "id_value=$id_value" >> $GITHUB_ENV
-      - name: list
-        if: ${{ env.id_value != 'APPSVC00000'}} 
-        run: echo "running the step"
-      # Continue with other steps using the id_value variable
+          # Perform steps to retrieve the ID value
+          echo "::set-output name=id_value:: APPSVC00000"
+
+  second_job:
+    needs: first_job
+    runs-on: ubuntu-latest
+
+    if: ${{ needs.first_job.outputs.id_value != '' }}
+
+    steps:
+      - name: Use ID Value
+        run: |
+          # Use the ID value from the first job
+          echo "ID Value: ${{ needs.first_job.outputs.id_value }}"
+          # Perform additional steps for the second job
