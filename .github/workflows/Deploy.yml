@@ -35,7 +35,7 @@ jobs:
         run: |
           id_value=$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)
           echo $id_value
-          echo "::set-output name=idoutput::$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)"
+          echo "::set-output name=idoutput::$id_value"
   second_job:
     needs: [first_job]
     runs-on: ubuntu-latest
