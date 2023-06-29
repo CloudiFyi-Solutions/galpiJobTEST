@@ -29,7 +29,6 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v2
-      - name : IDcheck
         id: getid
         run: |
           id_value=$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)
