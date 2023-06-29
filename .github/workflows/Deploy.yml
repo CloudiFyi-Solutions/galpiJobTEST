@@ -39,8 +39,8 @@ jobs:
   second_job:
     needs: [first_job]
     runs-on: ubuntu-latest
-    if: ~contains('["APPSVC01111"]',needs.first_job.outputs.idoutput)
+    if: not(contains('["APPSVC01111"]',needs.first_job.outputs.idoutput))
     steps:
       - run: |
           echo "ID Output: ${{ needs.first_job.outputs.idoutput }} "
-          echo "Condition: ${{ ~contains('["APPSVC01111"]',needs.first_job.outputs.idoutput) }}"
+          echo "Condition: ${{ not(contains('["APPSVC01111"]',needs.first_job.outputs.idoutput)) }}"
