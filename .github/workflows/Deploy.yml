@@ -33,6 +33,7 @@ jobs:
         id: get_id
         run: |
           id_value=$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)
+          echo $id_value
           echo "::set-output name=id_value::$id_value"
 
   second_job:
