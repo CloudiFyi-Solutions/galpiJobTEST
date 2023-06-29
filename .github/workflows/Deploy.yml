@@ -35,15 +35,13 @@ jobs:
         run: |
           id_value=$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)
           echo $id_value
-          echo "id_value=$id_value" >> $GITHUB_OUTPUT
+      # echo "id_value=$id_value" >> $GITHUB_OUTPUT
+          echo "::set-output name=id::$id_value"
   second_job:
+    name: getjobid
     runs-on: ubuntu-latest
     needs: first_job
-
-    if: ${{ needs.first_job.outputs.id != 'APPSVC00000' }}
-
+    if: needs.first_job.outputs.id != 'APPSVC00000'
     steps:
-      - env:
-          id: ${{needs.first_job.outputs.id}}
-        run: |
+      - run: |
           echo "$id"
