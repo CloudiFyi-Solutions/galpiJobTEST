@@ -3,5 +3,5 @@ repoMetaData:
   change: NA
   serviceNowAssociatedRecords:
     - type:  AppService
-       id: APPSVC01111
+       id: APPSVC00000
        tech: Terraform
