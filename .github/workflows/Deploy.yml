@@ -40,7 +40,7 @@ jobs:
     needs: first_job
     runs-on: ubuntu-latest
 
-    if: ${{ first_job.steps.get_id.outputs.id_value != 'APPSVC00000' }}
+    if: ${{ needs.first_job.steps.get_id.outputs.id_value != 'APPSVC00000' }}
 
     steps:
       - name: Use ID Value
