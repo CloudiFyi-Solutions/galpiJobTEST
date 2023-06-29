@@ -34,13 +34,12 @@ jobs:
         run: |
           id_value=$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)
           echo $id_value
-          echo "id_value=$id_value" >> $GITHUB_OUTPUT
-
+          echo "::set-output name=id_value::${{id_value}}"
   second_job:
     needs: first_job
     runs-on: ubuntu-latest
 
-    if: ${{ needs.first_job.steps.get_id.outputs.id_value != 'APPSVC00000' }}
+    if: ${{ ${{ needs.first_job.steps.outputs.id_value }} != 'APPSVC00000' }}
 
     steps:
       - name: Use ID Value
