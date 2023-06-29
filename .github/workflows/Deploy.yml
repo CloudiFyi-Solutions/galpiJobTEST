@@ -35,11 +35,12 @@ jobs:
         run: |
           id_value=$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)
           echo $id_value
+          conditn=
           echo "::set-output name=idoutput::$id_value"
   second_job:
     needs: [first_job]
     runs-on: ubuntu-latest
-    if: ~needs.first_job.outputs.idoutput == 'APPSVC02111'
+    condition: not(eq(needs.first_job.outputs.idoutput, 'APPSVC02111'))
     steps:
       - run: |
           echo "ID Output: ${{ needs.first_job.outputs.idoutput }} "
