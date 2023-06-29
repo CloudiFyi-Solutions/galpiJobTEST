@@ -43,7 +43,6 @@ jobs:
     if: ${{ needs.first_job.outputs.id != 'APPSVC00000' }}
 
     steps:
-      - name: Use ID Value
       - env:
           id: ${{needs.first_job.outputs.id}}
         run: |
