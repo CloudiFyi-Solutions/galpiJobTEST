@@ -1,0 +1,40 @@
+name: PR Work Item Link and Title Check
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  pr_check:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 14
+
+      - name: Install dependencies
+        run: npm install
+        
+      - name: Check PR title and work item link
+        run: |
+          pr_title=$(curl -s "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}" | jq -r '.title')
+          comments=$(curl -s "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments")
+          
+          if [[ ! "$pr_title" =~ ^AB: ]]; then
+            echo "PR title does not start with 'AB:'"
+            exit 1
+          fi
+          
+          work_item_comment=$(echo "$comments" | jq -r '.[] | select(.body | contains("https://your-work-item-link-pattern")) | .body')
+          
+          if [[ -z "$work_item_comment" ]]; then
+            echo "No work item link found in comments"
+            exit 1
+          fi
