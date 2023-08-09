@@ -26,7 +26,7 @@ jobs:
         run: |
           pr_title=$(curl -s "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}" | jq -r '.title')
           comments=$(curl -s "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments")
-          
+          echo "$pr_title"
           if [[ ! "$pr_title" =~ ^AB: ]]; then
             echo "PR title does not start with 'AB:'"
             exit 1
