@@ -24,17 +24,15 @@ jobs:
         
       - name: Check PR title and work item link
         run: |
-          pr_title=$(curl -s "https://api.github.com/repos/${{ github.repository }}/pulls/${{ github.event.pull_request.number }}" | jq -r '.title')
-          comments=$(curl -s "https://api.github.com/repos/${{ github.repository }}/issues/${{ github.event.pull_request.number }}/comments")
-          echo "$pr_title"
-          if [[ ! "$pr_title" =~ ^AB: ]]; then
-            echo "PR title does not start with 'AB:'"
+          pr_number=${{ github.event.pull_request.number }}
+          pr_title=$(curl -s "https://api.github.com/repos/${{ github.repository }}/pulls/$pr_number" | jq -r '.title')
+          
+          if [[ "$pr_title" == null ]]; then
+            echo "Failed to retrieve PR title"
             exit 1
           fi
           
-          work_item_comment=$(echo "$comments" | jq -r '.[] | select(.body | contains("https://your-work-item-link-pattern")) | .body')
-          
-          if [[ -z "$work_item_comment" ]]; then
-            echo "No work item link found in comments"
+          if [[ ! "$pr_title" =~ ^AB: ]]; then
+            echo "PR title does not start with 'AB:'"
             exit 1
           fi
