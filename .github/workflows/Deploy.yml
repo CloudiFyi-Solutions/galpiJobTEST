@@ -4,23 +4,7 @@ on:
   push:
     branches:
       - main
-
-# jobs:
-#   extract_id_job:
-#     runs-on: ubuntu-latest
-
-#     steps:
-#       - name: Checkout repository
-#         uses: actions/checkout@v2
-
-#       - name: Extract id value
-#         run: |
-#           id_value=$(awk '/^[[:blank:]]*id:/ { print $2 }' asset.yml)
-#           echo "id_value=$id_value" >> $GITHUB_ENV
-#       - name: list
-#         if: ${{ env.id_value != 'APPSVC00000'}} 
-#         run: echo "running the step"
-#       # Continue with other steps using the id_value variable
+      
 jobs:
   first_job:
     runs-on: ubuntu-latest
